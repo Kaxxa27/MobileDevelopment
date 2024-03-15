@@ -47,4 +47,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/calc_icon</item>
+    </style>
+
 </resources>

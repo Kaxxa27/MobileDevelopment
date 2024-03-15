@@ -7,12 +7,12 @@
 
     <TextView
         android:id="@+id/operationField"
-        android:text="Operation"
+        android:hint="Operation"
         style="@style/OperationDisplay" />
 
     <TextView
         android:id="@+id/resultField"
-        android:text="Result"
+        android:hint="Result"
         style="@style/ResultDisplay" />
 
     <GridLayout
