@@ -35,7 +35,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/b_ln"
-            android:text="ln"
+            android:text="log"
             style="@style/OptionalOperation" />
 
         <androidx.appcompat.widget.AppCompatButton
