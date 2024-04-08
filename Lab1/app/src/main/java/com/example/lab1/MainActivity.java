@@ -1,6 +1,12 @@
 package com.example.lab1;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +15,13 @@ import androidx.appcompat.widget.AppCompatButton;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener{
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private static final float THRESHOLD = 30.0f;
+    private boolean tiltedUp = false;
+
     private TextView resultField;
     private TextView operationField;
     private Calculator calculator;
@@ -21,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener((SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         resultField = findViewById(R.id.resultField);
         operationField = findViewById(R.id.operationField);
@@ -40,6 +56,27 @@ public class MainActivity extends AppCompatActivity {
             resultField.setText(savedInstanceState.getString(KEY_RESULT));
             operationField.setText(savedInstanceState.getString(KEY_OPERATION));
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float xAcceleration = event.values[0]; // Ускорение по оси X
+        float yAcceleration = event.values[1]; // Ускорение по оси Y
+        float zAcceleration = event.values[2]; // Ускорение по оси Z
+
+        Log.d("Acceleration", "X: " + xAcceleration + ", Y: " + yAcceleration + ", Z: " + zAcceleration);
+
+        if(xAcceleration > 10) {
+            calculator.processButtonClick("AC", operationField, resultField);
+        }
+        else if(xAcceleration < -10) {
+            calculator.processButtonClick("=", operationField, resultField);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     protected void onButtonClick(String buttonText) {
