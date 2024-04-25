@@ -174,4 +174,18 @@
             style="@style/MainOperation" />
 
     </GridLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Dark mode"
+            android:gravity="center"
+            android:textSize="30sp" />
+    </LinearLayout>
 </LinearLayout>

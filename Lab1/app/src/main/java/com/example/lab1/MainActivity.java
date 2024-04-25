@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.GridLayout;
@@ -25,6 +26,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accelerometer;
     private static final float THRESHOLD = 30.0f;
     private boolean tiltedUp = false;
+
+    private Switch switcher;
+    private DarkModeManager darkModeManager;
+
     private BtnHistoryManager historyManager;
     private TextView resultField;
     private TextView operationField;
@@ -76,6 +81,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (savedInstanceState != null) {
             resultField.setText(savedInstanceState.getString(KEY_RESULT));
             operationField.setText(savedInstanceState.getString(KEY_OPERATION));
+        }
+
+        switcher = findViewById(R.id.switcher);
+
+        if (switcher != null) {
+            darkModeManager = new DarkModeManager(switcher);
         }
     }
 

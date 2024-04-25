@@ -1,6 +1,17 @@
 package com.example.lab1;
 
+import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import net.objecthunter.exp4j.*;
 
 public class Calculator {
@@ -57,3 +68,4 @@ public class Calculator {
         buttonPressHistoryManager.saveButtonPress(buttonText);
     }
 }
+
