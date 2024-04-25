@@ -4,6 +4,13 @@ import android.widget.TextView;
 import net.objecthunter.exp4j.*;
 
 public class Calculator {
+
+    private BtnHistoryManager buttonPressHistoryManager;
+
+    public Calculator() {
+        // Инициализируем объект ButtonPressHistoryManager
+        buttonPressHistoryManager = new BtnHistoryManager();
+    }
     public void processButtonClick(String buttonText, TextView operationField, TextView resultField) {
         switch (buttonText) {
             case "sqrt":
@@ -28,19 +35,25 @@ public class Calculator {
                 break;
             case "=":
                 String operationText = operationField.getText().toString();
+                String resultText = "";
                 if (!operationText.isEmpty()) {
                     try {
                         Expression expression = new ExpressionBuilder(operationText).build();
                         double result = expression.evaluate();
-                        resultField.setText(Double.toString(result));
+                        resultText = Double.toString(result);
+                        resultField.setText(resultText);
                     } catch (Exception exception) {
                         resultField.setText("Invalid input");
                     }
                 }
+
+                buttonPressHistoryManager.saveResultPress(resultText, operationText);
                 break;
             default:
                 operationField.append(buttonText);
                 break;
         }
+
+        buttonPressHistoryManager.saveButtonPress(buttonText);
     }
 }

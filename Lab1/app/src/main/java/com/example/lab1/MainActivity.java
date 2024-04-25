@@ -12,6 +12,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.GridLayout;
 import androidx.appcompat.widget.AppCompatButton;
+
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -21,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accelerometer;
     private static final float THRESHOLD = 30.0f;
     private boolean tiltedUp = false;
-
+    private BtnHistoryManager historyManager;
     private TextView resultField;
     private TextView operationField;
     private Calculator calculator;
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         operationField = findViewById(R.id.operationField);
 
         calculator = new Calculator();
+        historyManager = new BtnHistoryManager();
 
         GridLayout gridLayout = findViewById(R.id.buttonGrid);
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
@@ -51,6 +56,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 button.setOnClickListener((View v) -> onButtonClick(button.getText().toString()));
             }
         }
+
+        historyManager.readLastResult(new BtnHistoryManager.OnResultLoadedListener() {
+            @Override
+            public void onResultLoaded(ResultPress result) {
+                if (result != null) {
+                    resultField.setText(result.getResult());
+                    operationField.setText(result.getOperation());
+                }
+            }
+        });
+
+//        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder("@gcm.googleapis.com")
+//                .setMessageId(Integer.toString(123))
+//                .addData("title", "Загрузка завершена")
+//                .addData("message", "Приложение успешно загружено")
+//                .build());
 
         if (savedInstanceState != null) {
             resultField.setText(savedInstanceState.getString(KEY_RESULT));
