@@ -4,6 +4,8 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-
-    <style name="Theme.Lab1" parent="Base.Theme.Lab1" />
+    <style name="Theme.Lab1." parent="Base.Theme.Lab1" >
+        <item name="android:statusBarColor">#ff2485</item>
+        <item name="android:background">#ff2485</item>
+    </style>
 </resources>

@@ -1,9 +1,27 @@
 package com.example.lab1;
 
+import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import net.objecthunter.exp4j.*;
 
 public class Calculator {
+
+    private BtnHistoryManager buttonPressHistoryManager;
+
+    public Calculator() {
+        // Инициализируем объект ButtonPressHistoryManager
+        buttonPressHistoryManager = new BtnHistoryManager();
+    }
     public void processButtonClick(String buttonText, TextView operationField, TextView resultField) {
         switch (buttonText) {
             case "sqrt":
@@ -28,19 +46,26 @@ public class Calculator {
                 break;
             case "=":
                 String operationText = operationField.getText().toString();
+                String resultText = "";
                 if (!operationText.isEmpty()) {
                     try {
                         Expression expression = new ExpressionBuilder(operationText).build();
                         double result = expression.evaluate();
-                        resultField.setText(Double.toString(result));
+                        resultText = Double.toString(result);
+                        resultField.setText(resultText);
                     } catch (Exception exception) {
                         resultField.setText("Invalid input");
                     }
                 }
+
+                buttonPressHistoryManager.saveResultPress(resultText, operationText);
                 break;
             default:
                 operationField.append(buttonText);
                 break;
         }
+
+        buttonPressHistoryManager.saveButtonPress(buttonText);
     }
 }
+

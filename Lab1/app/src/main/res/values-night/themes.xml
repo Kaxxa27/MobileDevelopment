@@ -4,4 +4,8 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+    <style name="Theme.Lab1." parent="Base.Theme.Lab1" >
+        <item name="android:statusBarColor">#cc2312</item>
+        <item name="android:background">#cc2312</item>
+    </style>
 </resources>
